@@ -4,6 +4,6 @@
   become: true
 
   tasks:
-  - name: install htop
+  - name: install gimp
     package:
-      name: htop
+      name: gimp

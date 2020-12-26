@@ -3,7 +3,7 @@
   connection: local
   become: true
 
-  tasks::
-  - name: install gimp
+  tasks:
+  - name: install htop
     package:
-      name: gimp
+      name: htop

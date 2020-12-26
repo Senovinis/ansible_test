@@ -1,0 +1,9 @@
+---
+- hosts: localhosts
+  connection: local
+  become: true
+
+  tasks::
+  - name: install gimp
+    package:
+      name: gimp

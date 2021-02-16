@@ -1,0 +1,16 @@
+---
+
+# cia tik kai inventory faile nusirodai ka kokiam serveriui instaliuot individualiai
+
+- hosts: all
+  become: true
+  tasks:
+
+
+  - name: update repository and install apache and php packages
+    package:
+      name:
+        - "{{ apache_package }}"
+        - "{{ php_package }}"
+      state: latest
+      update_cache: yes

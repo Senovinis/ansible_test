@@ -1,3 +1,8 @@
+[db_servers]
 auj@192.168.122.6
+
+[file_servers]
 auj@192.168.0.71
+
+[web_servers]
 auj@192.168.122.245

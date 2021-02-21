@@ -61,6 +61,33 @@
       state: latest
     when: ansible_distribution == "CentOS"
 
+  - name: start httpd (CentOS tik reikia)
+    tags: apache,centos,httpd
+    service:
+      name: httpd
+      state: started
+      enabled: yes
+    when: ansible_distribution == "CentOS"
+
+  - name: change e-mail address for admin
+    tags: apache,centos,httpd
+    lineinfile:
+      path: /etc/httpd/conf/httpd.conf
+      regexp: '^ServerAdmin'
+      line: ServerAdmin kazkada@paupdatinau.net
+    when: ansible_distribution == "CentOS"
+# registruoja state i variable name httpd, gali but bet kas, pvz pizza, bet tada zemesniam play reiktu parasyt pizza.changed
+    register: httpd
+
+  - name: restart httpd (Centos)
+    tags: apache,centos,httpd
+    service:
+      name: httpd
+      state: restarted
+# darom tik kai httpd modulis is tikro pasikeite - pries tai uzregistruotas kintamasis pasikeite. Nerasom when = centos, nes tai turi but centos, kad play atsidurtu sitoj vietoj po pries tai vykusio play.
+    when: httpd.changed
+
+
   - name: copy default html file for site
     tags: apache,apache2,httpd
     copy:

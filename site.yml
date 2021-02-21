@@ -19,6 +19,23 @@
       update_cache: yes
     when: ansible_distribution == "Ubuntu"
 
+- hosts: workstations
+  become: true
+  tasks:
+
+  - name: install unzip
+    package:
+      name: unzip
+
+  - name: install terraform
+    unarchive:
+      src: https://releases.hashicorp.com/terraform/0.14.7/terraform_0.14.7_linux_amd64.zip
+      dest: /usr/local/bin
+      remote_src: yes
+      mode: 0755
+      owner: root
+      group: root
+
 # pas mane maziau web serveriu (1), todel teoriskai Ubuntu nereikia, nauoju tik CentOS
 
 - hosts: web_servers

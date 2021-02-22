@@ -4,31 +4,29 @@
   become: true
   pre_tasks:
 
-  - name: install updates (CentOS)
+  - name: update repo cache (CentOS)
     tags: always
     yum:
-      name: "*"
-      state: latest
       update_cache: yes
+# cia tik counteris, kad nesiskaiciuotu playbooko pabaigoje, kad outputas butu svaresnis, cache vistie kvisada updatins, cacha updatint butina, kad playbookai nefailintu kartais
+    changed_when: false
     when: ansible_distribution == "CentOS"
 
-  - name: install updates (Ubuntu)
+  - name: update repo cache (Ubuntu)
     tags: always
     apt:
-      upgrade: dist
       update_cache: yes
+    changed_when: false
     when: ansible_distribution == "Ubuntu"
 
 - hosts: all
   become: true
   tasks:
 
-  - name: create simone user
-    tags: always
-    user:
-      name: simone
-      groups: root
 
+# sita play paliko tik del viso pikto, kad pvz nusileakinus kejui galima butu virs sito kitu play addint kita key
+# o apacioj play state padaryt absent, kad removintu sita key is serveriu
+# arba tiesiog pakeist key kuris apacioj
   - name: add ssh key for simone
     tags: always
 # specialus modulis sitai paskirciai - kopijot public key, kuri pasikopinam manualiai is .ssh direktorijos
@@ -36,18 +34,7 @@
       user: simone
       key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK427/tOh50dEfGOqciAvS/CK8EAegPB9UKPAA1vOQ4i auj default"
 
-  - name: add sudoers file for simone
-    tags: always
-    copy:
-# nurodomas failas is kurio paims (reik sukurt sita pries tia faila atskirai), toj pacioj direktorijoj files foldery sukuriu faila, kurio viduj simone ALL=(ALL) NOPASSWD: ALL
-
-      src: sudoer_simone
-      dest: /etc/sudoers.d/simone
-      owner: root
-      group: root
-      mode: 0440
-      
-
+  
 - hosts: workstations
   become: true
   tasks:

@@ -1,0 +1,8 @@
+# sita play paliko tik del viso pikto, kad pvz nusileakinus kejui galima butu virs sito kitu play addint kita key
+# o apacioj play state padaryt absent, kad removintu sita key is serveriu
+# arba tiesiog pakeist key kuris apacioj
+  - name: add ssh key for simone
+# specialus modulis sitai paskirciai - kopijot public key, kuri pasikopinam manualiai is .ssh direktorijos
+    authorized_key:
+      user: simone
+      key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK427/tOh50dEfGOqciAvS/CK8EAegPB9UKPAA1vOQ4i auj default"

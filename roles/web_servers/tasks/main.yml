@@ -1,46 +1,29 @@
-  - name: install apache and php for Ubuntu servers
+  - name: install apache and php
     tags: apache,apache2,ubuntu
-    apt:
+    package:
       name:
-        - apache2
-        - libapache2-mod-php
+        - "{{ apache_package_name }}"
+        - "{{ php_package_name }}"
       state: latest
-    when: ansible_distribution == "Ubuntu"
 
-  - name: install apache and php for CentOS servers
-    tags: apache,centos,httpd
-    yum:
-      name:
-        - httpd
-        - php
-      state: latest
-    when: ansible_distribution == "CentOS"
 
-  - name: start httpd (CentOS tik reikia)
+  - name: start and enable apache service (CentOS tik reikia)
     tags: apache,centos,httpd
     service:
-      name: httpd
+      name: "{{ apache_service }}"
       state: started
       enabled: yes
-    when: ansible_distribution == "CentOS"
 
   - name: change e-mail address for admin
     tags: apache,centos,httpd
     lineinfile:
       path: /etc/httpd/conf/httpd.conf
       regexp: '^ServerAdmin'
-      line: ServerAdmin kazkada@paupdatinau.net
+      line: ServerAdmin kazkada@paupdatinau.com
     when: ansible_distribution == "CentOS"
-# registruoja state i variable name httpd, gali but bet kas, pvz pizza, bet tada zemesniam play reiktu parasyt pizza.changed
-    register: httpd
+# notifikuoja play, kuris vadinamas restart_apache (handleri), kuris randasi sukurtam sukurtam web_servers subfolderyje handlers (/roles/web_servers/handlers/main.yml). Aprasytas tuo paciu pavadinimu "main.yml" faile
+    notify: restart_apache
 
-  - name: restart httpd (Centos)
-    tags: apache,centos,httpd
-    service:
-      name: httpd
-      state: restarted
-# darom tik kai httpd modulis is tikro pasikeite - pries tai uzregistruotas kintamasis pasikeite. Nerasom when = centos, nes tai turi but centos, kad play atsidurtu sitoj vietoj po pries tai vykusio play.
-    when: httpd.changed
 
 
   - name: copy default html file for site

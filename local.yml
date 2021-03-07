@@ -7,3 +7,5 @@
   - name: install gimp
     package:
       name: gimp
+
+#komentaras parikrinimui i kuria repository nukeliaus

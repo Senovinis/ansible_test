@@ -15,6 +15,7 @@ ls
 cd repositorija/
 cat README.md
 
+# zemiau mano atveju Senovinis, o ne vardas pavarde, o mailas pagrindinis
 git config --global user.name "Vardas Pavarde"
 git config --global user.email "mailas@mailas.com"
 #rezultata galima rast cat ~/.gitconfig
